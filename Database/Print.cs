@@ -11,13 +11,13 @@ using System.Windows.Forms;
 
 namespace Database
 {
-    class Print
+    class Printer
     {
             string fileInputtedPath;
             List<Core> coreListToPrint;
             int ignoredLines;
 
-            public Print(string File, List<Core> CoreList, int IgnoredLines)
+            public Printer(string File, List<Core> CoreList, int IgnoredLines)
             {
                 ignoredLines = IgnoredLines;
                 coreListToPrint = CoreList;
