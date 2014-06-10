@@ -1,0 +1,17 @@
+Form1---
+
+16 J to private
+31 M make methods
+70 J make methods
+   M change Read to Reader
+   J chenge Print to Printer
+
+Read.cs---
+
+31 J split up
+31 M rename to coreParser
+58 J get rid of array
+71 M get rid of array
+   J SortingEngine add methods to split up SortTool
+
+doug.wagers@softekinc.com

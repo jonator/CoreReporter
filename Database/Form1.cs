@@ -13,7 +13,7 @@ namespace Database
 {
     public partial class Main : Form
     {
-        public string file = "";
+        private string file = "";
         private int ignoredLines;
         private List<Core> mainCore;
 
@@ -33,7 +33,6 @@ namespace Database
             if (file == string.Empty)
             {
                 MessageBox.Show("No file selected");
-
                 return;
             }
 
@@ -41,33 +40,39 @@ namespace Database
             Read reader = new Read(file);
             mainCore = reader.setCore();
             ignoredLines = reader.setIgnoredLines();
-            if (coreNameRadio.Checked)
 
-            {
-                SortingEngine nameSorter = new SortingEngine(mainCore, new CoreNameComparer());
-                mainCore = nameSorter.setCore();
-            }
-            else if (sizeRadio.Checked)
-            {
-                SortingEngine sizeSorter = new SortingEngine(mainCore, new CoreSizeComparer());
-                mainCore = sizeSorter.setCore();
-            }
-            else if(documentCountRadio.Checked)
-            {
-                SortingEngine docSorter = new SortingEngine(mainCore, new CoreDocumentCountComparer());
-                mainCore = docSorter.setCore();
-            }
-            else
-            {
-                MessageBox.Show("No radio buttons selected");
-            }
+            checkAndPrint(mainCore);
 
-            Print printer = new Print(file, mainCore, ignoredLines);
+            Printer printer = new Printer(file, mainCore, ignoredLines);
             printer.makeFile();
             MessageBox.Show("Finished");
         }
 
+        private void checkAndPrint(List<Core> mainCore)
+        {
+            if (coreNameRadio.Checked)
+            {
+                SortingEngine namesorter = new SortingEngine(mainCore, new CoreNameComparer());
+                mainCore = namesorter.setCore();
+            }
+            else if (sizeRadio.Checked)
+            {
+                SortingEngine sizeSorter = new SortingEngine(mainCore, new CoreNameComparer());
+                mainCore = sizeSorter.setCore();
+            }
+            else if (documentCountRadio.Checked)
+            {
+                SortingEngine docSorter = new SortingEngine(mainCore, new CoreNameComparer());
+                mainCore = docSorter.setCore();
+            }
+        }
+
         private void chooseFileButton_Click(object sender, EventArgs e)
+        {
+            makeFileDialog();
+        }
+
+        private void makeFileDialog()
         {
             OpenFileDialog mainDialog = new OpenFileDialog();
 
@@ -83,6 +88,7 @@ namespace Database
                 file = mainDialog.FileName;
                 filePathLabel.Text = file;
             }
+
         }
     }
 }

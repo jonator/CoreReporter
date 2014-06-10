@@ -11,37 +11,37 @@ namespace Database
         List<Core> coreList;
         IComparer<Core> compareType;
 
-        public SortingEngine(List<Core> CoreList, IComparer<Core> CompareType)
+        public void Sort(List<Core> CoreList, IComparer<Core> CompareType)
         {
-            coreList = CoreList;
-            compareType = CompareType;
-            sortTool(0);
+            Sort(CoreList, CompareType, 0);
         }
-        public void sortTool(int interval)
+        private void Sort(List<Core> CoreList, IComparer<Core> CompareType, int startingIndex)
         {
             int comparedVal;
             int length = coreList.Count;
-            for (int j = interval + 1; j < length; j++)
+            for (int j = startingIndex + 1; j < length; j++)
             {
-                comparedVal = compareType.Compare(coreList[interval], coreList[j]);
+                comparedVal = compareType.Compare(coreList[startingIndex], coreList[j]);
 
                 if (comparedVal < 0)
                 {
-                    swapMethod(interval, j);
+                    swapMethod(startingIndex, j);
                 }
             }
-                interval++;
-                if (interval < length)
+                startingIndex++;
+                if (startingIndex < length)
                 {
-                    sortTool(interval);
+                    Sort(CoreList, CompareType,startingIndex);
                 }
         }
+
         public void swapMethod(int x, int y)
         {
             Core holder = coreList[x];
             coreList[x] = coreList[y];
             coreList[y] = holder;
         }
+
         public List<Core> setCore()
         {
             return coreList;
