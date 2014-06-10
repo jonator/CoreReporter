@@ -23,8 +23,8 @@ namespace Database
                 coreListToPrint = CoreList;
                 fileInputtedPath = File + "_Finished.txt";
             }
-
-
+            
+            
             public void makeFile()
             {
                 string path = fileInputtedPath;
@@ -38,8 +38,8 @@ namespace Database
                 {
                     using (StreamWriter writer = new StreamWriter(newFile))
                     {
-                        writer.WriteLine("Name               Size              Document Count");
-                        writer.WriteLine("___________________________________________________");
+                        writer.WriteLine("Name                       Size        Document Count");
+                        writer.WriteLine("_____________________________________________________");
                     for (int i = 0; i < coreListToPrint.Count; i++)
                     {
                         writer.WriteLine(i + 1 + ": | " + coreListToPrint[i].CoreName + addSpacesName(i) + coreListToPrint[i].Size + addSpacesSizes(i) + coreListToPrint[i].Document);
@@ -52,10 +52,8 @@ namespace Database
                     }
                 }
             }
-
-
+            
             //Add a method adds turns "final" into the biggest didget + 5
-
 
             public string addSpacesName(int lineN)
             {
@@ -69,6 +67,7 @@ namespace Database
                 }
                 return ret;
             }
+            
             public string addSpacesSizes(int lineN)
             {
                 long final = 12;

@@ -11,12 +11,14 @@ using System.Windows.Forms;
 
 namespace Database
 {
-    public partial class Form1 : Form
+    public partial class Main : Form
     {
+        public string file = "";
         private int ignoredLines;
         private List<Core> mainCore;
-        private string file;
-        private Form1()
+
+
+        public Main()
         {
             InitializeComponent();
         }
@@ -28,12 +30,19 @@ namespace Database
         
         private void sortButton_Click(object sender, EventArgs e)
         {
-            file = @"C:\WS\Database\Database\bin\Debug\testData - Copy.txt";
+            if (file == string.Empty)
+            {
+                MessageBox.Show("No file selected");
+
+                return;
+            }
+
             string check = System.IO.File.ReadAllText(file);
             Read reader = new Read(file);
             mainCore = reader.setCore();
-
+            ignoredLines = reader.setIgnoredLines();
             if (coreNameRadio.Checked)
+
             {
                 SortingEngine nameSorter = new SortingEngine(mainCore, new CoreNameComparer());
                 mainCore = nameSorter.setCore();
@@ -56,6 +65,24 @@ namespace Database
             Print printer = new Print(file, mainCore, ignoredLines);
             printer.makeFile();
             MessageBox.Show("Finished");
+        }
+
+        private void chooseFileButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog mainDialog = new OpenFileDialog();
+
+            mainDialog.Filter = "Text Files (.txt)|*.txt|All Files (*.*)|*.*";
+            mainDialog.FilterIndex = 1;
+
+            mainDialog.Multiselect = false;
+
+            DialogResult result = mainDialog.ShowDialog();
+
+            if (result == DialogResult.OK)
+            {
+                file = mainDialog.FileName;
+                filePathLabel.Text = file;
+            }
         }
     }
 }

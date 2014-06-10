@@ -15,12 +15,7 @@ namespace Database
         {
             coreList = CoreList;
             compareType = CompareType;
-            sortList();
-        }
-        public void sortList()
-        {
-            int i = 0;
-            sortTool(i);
+            sortTool(0);
         }
         public void sortTool(int interval)
         {
@@ -34,12 +29,12 @@ namespace Database
                 {
                     swapMethod(interval, j);
                 }
+            }
                 interval++;
                 if (interval < length)
                 {
                     sortTool(interval);
                 }
-            }
         }
         public void swapMethod(int x, int y)
         {

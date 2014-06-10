@@ -1,6 +1,6 @@
 ﻿namespace Database
 {
-    partial class Form1
+    partial class Main
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.sortButton = new System.Windows.Forms.Button();
             this.coreNameRadio = new System.Windows.Forms.RadioButton();
             this.sizeRadio = new System.Windows.Forms.RadioButton();
@@ -73,13 +73,14 @@
             resources.ApplyResources(this.chooseFileButton, "chooseFileButton");
             this.chooseFileButton.Name = "chooseFileButton";
             this.chooseFileButton.UseVisualStyleBackColor = true;
+            this.chooseFileButton.Click += new System.EventHandler(this.chooseFileButton_Click);
             // 
             // filePathLabel
             // 
             resources.ApplyResources(this.filePathLabel, "filePathLabel");
             this.filePathLabel.Name = "filePathLabel";
             // 
-            // Form1
+            // Main
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -92,7 +93,7 @@
             this.Controls.Add(this.sortButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "Main";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);

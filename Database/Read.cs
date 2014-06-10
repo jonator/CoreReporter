@@ -8,14 +8,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows;
+
 namespace Database
 {
     class Read
     {
-        int x;
         int ignoredLines;
         List<Core> coreArray;
-        public string[] lines;
+        private string[] lines;
+
         public Read(string fileName)
         {
             ignoredLines = 0;
@@ -31,25 +33,30 @@ namespace Database
             string n;
             long s;
             int dC;
-            int slot1;
-            int slot2;
-            int slot3;
-            int slot4;
+            int findFirstSpaceIndex;
+            int findSecondSpaceIndex;
+            int sizeFinder;
+            int docCountFinder;
             int length = lines.Length;
             int lengthStr;
+            string stringVersionSize;
+            string stringVersionDocCount;
             for (int i = 0; i < length; i++)
             {
-
                 lengthStr = lines[i].Length;
-                slot1 = lines[i].IndexOf(" ");
-                slot2 = lines[i].LastIndexOf(" ");
-                slot3 = slot2 - slot1;
-                slot4 = lengthStr - slot2;
-                if (slot1 != -1 || slot2 != -1)
+                findFirstSpaceIndex = lines[i].IndexOf(" ");
+                findSecondSpaceIndex = lines[i].LastIndexOf(" ");
+                sizeFinder = findSecondSpaceIndex - findFirstSpaceIndex;
+                docCountFinder = lengthStr - findSecondSpaceIndex;
+
+                stringVersionSize = sizeFinder.ToString();
+                stringVersionDocCount = docCountFinder.ToString();
+
+                if (findFirstSpaceIndex != -1 && findSecondSpaceIndex != findFirstSpaceIndex && checkParse(findFirstSpaceIndex, findSecondSpaceIndex, i))
                 {
-                    n = lines[i].Substring(0, slot1);
-                    s = int.Parse(lines[i].Substring(slot1 + 1, slot3 - 1));
-                    dC = int.Parse(lines[i].Substring(slot2 + 1, slot4 - 1));
+                    n = lines[i].Substring(0, findFirstSpaceIndex);
+                    s = int.Parse(lines[i].Substring(findFirstSpaceIndex + 1, sizeFinder - 1));
+                    dC = int.Parse(lines[i].Substring(findSecondSpaceIndex + 1, docCountFinder - 1));
                     makeCore(n, s, dC, i);
                 }
                 else
@@ -57,6 +64,19 @@ namespace Database
                     ignoredLines++;
                 }
             }
+        }
+
+        public int setIgnoredLines()
+        {
+            return ignoredLines;
+        }
+
+        public bool checkParse(int firstSpace, int secondSpace, int line)
+        {
+            int length1 = secondSpace - firstSpace;
+            int success;
+            bool result = int.TryParse(lines[line].Substring(firstSpace + 1, length1), out success);
+            return result;
         }
 
         public void makeCore(string coreN, long Size, int docCount, int i)
@@ -68,6 +88,5 @@ namespace Database
         {
             return coreArray;
         }
-
     }
 }

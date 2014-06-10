@@ -11,14 +11,14 @@ using System.Windows.Forms;
 
 namespace Database
 {
-    class CoreDocumentCountComparer
+    class CoreDocumentCountComparer : IComparer<Core>
     {
         public int Compare(Core x, Core y)
         {
             if (x.Document < y.Document)
-                return -2;
+                return -1;
             else if (x.Document > y.Document)
-                return 2;
+                return 1;
             else
                 return 0;
         }

@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Database
 {
-    class CoreNameComparer
+    class CoreNameComparer : IComparer<Core>
     {
         public int Compare(Core x, Core y)
         {
