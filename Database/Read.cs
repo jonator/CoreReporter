@@ -23,47 +23,35 @@ namespace Database
             ignoredLines = 0;
             coreArray = new List<Core>();
             lines = System.IO.File.ReadAllLines(fileName);
-            sortLines(lines);
         }
 
 
 
-        public void sortLines(string[] lineArr)//pulls apart each line parse
+        public void parseLines(string[] lineArr)//pulls apart each line parse
         {
-            string n;
-            long s;
-            int dC;
-            int findFirstSpaceIndex;
-            int findSecondSpaceIndex;
-            int sizeFinder;
-            int docCountFinder;
-            int length = lines.Length;
-            int lengthStr;
-            string stringVersionSize;
-            string stringVersionDocCount;
-            for (int i = 0; i < length; i++)
+            foreach (string line in lineArr)
             {
-                lengthStr = lines[i].Length;
-                findFirstSpaceIndex = lines[i].IndexOf(" ");
-                findSecondSpaceIndex = lines[i].LastIndexOf(" ");
-                sizeFinder = findSecondSpaceIndex - findFirstSpaceIndex;
-                docCountFinder = lengthStr - findSecondSpaceIndex;
-
-                stringVersionSize = sizeFinder.ToString();
-                stringVersionDocCount = docCountFinder.ToString();
-
-                if (findFirstSpaceIndex != -1 && findSecondSpaceIndex != findFirstSpaceIndex && checkParse(findFirstSpaceIndex, findSecondSpaceIndex, i))
+                try
                 {
-                    n = lines[i].Substring(0, findFirstSpaceIndex);
-                    s = int.Parse(lines[i].Substring(findFirstSpaceIndex + 1, sizeFinder - 1));
-                    dC = int.Parse(lines[i].Substring(findSecondSpaceIndex + 1, docCountFinder - 1));
-                    makeCore(n, s, dC, i);
+                    coreArray.Add(ParseCore(line));
                 }
-                else
+                catch(Exception e)
                 {
                     ignoredLines++;
                 }
             }
+        }
+        private Core ParseCore(string line)
+        {
+            
+
+            int indexOfFirstSpace;
+            int indexOfLastSpace;
+
+            indexOfFirstSpace = line.IndexOf(" ");
+            indexOfLastSpace = line.LastIndexOf(" ");
+            
+            return makeDataFromStringAndCore(indexOfFirstSpace, indexOfLastSpace, line);
         }
 
         public int setIgnoredLines()
@@ -71,17 +59,27 @@ namespace Database
             return ignoredLines;
         }
 
-        public bool checkParse(int firstSpace, int secondSpace, int line)
+        private bool checkParse(int firstSpace, int secondSpace, string line)
         {
             int length1 = secondSpace - firstSpace;
             int success;
-            bool result = int.TryParse(lines[line].Substring(firstSpace + 1, length1), out success);
+            bool result = int.TryParse(line.Substring(firstSpace + 1, length1), out success);
             return result;
         }
 
-        public void makeCore(string coreN, long Size, int docCount, int i)
+        public Core makeDataFromStringAndCore(int indexOfFirstSpace,int indexOfLastSpace, string line)
         {
-            coreArray.Add(new Core(coreN, Size, docCount));
+            int indexFirstSpace = indexOfFirstSpace;
+            int indexLastSpace = indexOfLastSpace;
+            
+            int sizeStringLength = indexLastSpace - indexFirstSpace;
+            int docCountFinder = line.Length - indexLastSpace;
+
+            string name = line.Substring(0, indexFirstSpace);
+            long size = int.Parse(line.Substring(indexFirstSpace + 1, sizeStringLength - 1));
+            int documentCount = int.Parse(line.Substring(indexLastSpace + 1, docCountFinder - 1));
+
+            return new Core(name, size, documentCount);
         }
 
         public List<Core> setCore()
